@@ -7,9 +7,8 @@ Registrar as principais decisões técnicas tomadas no desenvolvimento do projet
 
 ## Banco de Dados
 - **Decisão:** Usar MySQL com Prisma ORM.
-- **Alternativas consideradas:** PostgreSQL, SQLite, LowDB.
+- **Alternativas consideradas:** PostgreSQL.
 - **Motivo:** Familiaridade e simplicidade no setup local. PostgreSQL é mais robusto, mas não essencial para o escopo atual.
-- **Possível evolução:** Migrar para PostgreSQL em produção, se necessário.
 
 ---
 
@@ -23,9 +22,9 @@ Registrar as principais decisões técnicas tomadas no desenvolvimento do projet
 
 ## Exclusão de dados
 - **Decisão:** Implementar inicialmente **hard delete** (DELETE no banco).
-- **Alternativas consideradas:** Soft delete com coluna `deleted_at`.
+- **Alternativas consideradas:** Soft delete.
 - **Motivo:** Simplicidade. Soft delete exige alterar queries e maior controle.
-- **Possível evolução:** Migrar para soft delete futuramente adicionando coluna `deleted_at`.
+- **Possível evolução:** Migrar para soft delete futuramente para maior segurança de dados e rastreamento.
 
 ---
 
