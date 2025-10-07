@@ -13,18 +13,18 @@ Registrar as principais decisões técnicas tomadas no desenvolvimento do projet
 ---
 
 ## Identificadores (ID)
-- **Decisão:** Começar com `id` autoincrement (INT).
-- **Alternativas consideradas:** UUID como chave primária.
-- **Motivo:** Mais simples de implementar no MVP. UUID dificulta adivinhação de dados, mas adiciona complexidade.
-- **Possível evolução:** Adicionar coluna `public_id` (UUID) como identificador público e gradualmente migrar a API.
+- **Decisão:** Utilizar UUID como chave primária.
+- **Alternativas consideradas:** ID autoincrement (INT).
+- **Motivo:** UUID melhora a segurança e facilita integração futura com sistemas externos.
+- **Possível evolução:** Adicionar colunas como `created_at` e `updated_at` para maior rastreamento de mudanças.
 
 ---
 
 ## Exclusão de dados
-- **Decisão:** Implementar inicialmente **hard delete** (DELETE no banco).
-- **Alternativas consideradas:** Soft delete.
-- **Motivo:** Simplicidade. Soft delete exige alterar queries e maior controle.
-- **Possível evolução:** Migrar para soft delete futuramente para maior segurança de dados e rastreamento.
+- **Decisão:** Implementar **soft delete** usando coluna `deleted_at`.
+- **Alternativas consideradas:** Hard delete.
+- **Motivo:** Permite recuperação de dados.
+- **Possível evolução:** Adicionar lógica para arquivamento automático de registros inativos após certo período.
 
 ---
 
