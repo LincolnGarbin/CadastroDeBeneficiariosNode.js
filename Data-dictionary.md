@@ -22,5 +22,5 @@
 
 ### Observações
 - `uuid` implementação: armazenamos como `CHAR(36)` com valor gerado por `UUID()` no MySQL (formato textual `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`).
-- `cpf` armazenado sem pontuação (somente dígitos). Validar na API (regex `^\d{11}$`) antes de inserir.
+- `cpf` armazenado sem pontuação (somente dígitos). Validar antes de inserir.
 - `deleted_at` deixado como `NULL` para registros ativos; `NOT NULL` indica soft-deleted.
