@@ -3,7 +3,7 @@
 ## Tabela: Plano
 | Campo                 | Tipo SQL         | Restrição                    | Descrição |
 |-----------------------|------------------|------------------------------|----------|
-| id_plano                   | CHAR(36)         | PK, NOT NULL, DEFAULT UUID() | Identificador único do plano (UUID) |
+| id                  | CHAR(36)         | PK, NOT NULL, DEFAULT UUID() | Identificador único do plano (UUID) |
 | nome                  | VARCHAR(40)     | NOT NULL, UNIQUE             | Nome do plano (ex: "Plano Ouro") |
 | codigo_registro_ans   | VARCHAR(20)      | NOT NULL, UNIQUE             | Código de registro na ANS (formato livre) |
 | deleted_at            | TIMESTAMP NULL   | NULL por padrão              | Timestamp da exclusão lógica (soft delete) |
@@ -11,7 +11,7 @@
 ## Tabela: Beneficiario
 | Campo                 | Tipo SQL         | Restrição                    | Descrição |
 |-----------------------|------------------|------------------------------|----------|
-| id_beneficiario       | CHAR(36)         | PK, NOT NULL, DEFAULT UUID() | Identificador único do beneficiário (UUID) |
+| id       | CHAR(36)         | PK, NOT NULL, DEFAULT UUID() | Identificador único do beneficiário (UUID) |
 | fk_id_plano           | CHAR(36)         | NOT NULL, FK -> planos(id)   | FK para o plano (obrigatório) |
 | nome_completo         | VARCHAR(100)     | NOT NULL                     | Nome completo do beneficiário |
 | cpf                   | CHAR(11)         | NOT NULL, UNIQUE             | CPF (apenas dígitos, 11 caracteres) |

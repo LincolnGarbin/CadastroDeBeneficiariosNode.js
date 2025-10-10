@@ -1,0 +1,48 @@
+// prisma/schema.prisma
+// Schema para o desafio "Cadastro de Beneficiários"
+// Provider: MySQL
+// Observações:
+// - IDs como UUID (String com @default(uuid()))
+// - Campos mapeados para nomes SQL em snake_case via @map quando apropriado
+// - Campos de auditoria: createdAt, updatedAt, deletedAt
+// - dataNascimento e dataCadastro como DateTime (prisma usa DateTime; para apenas data use DateTime e ignore hora na API)
+
+// Define o gerador do cliente Prisma para uso no projeto
+generator client {
+  provider = "prisma-client-js" // Usa Prisma Client para JS/TS
+}
+
+// Define a fonte de dados, neste caso um banco MySQL
+datasource db {
+  provider = "mysql" // Indica que o banco é MySQL
+  url      = env("DATABASE_URL") // Usa variável de ambiente para a URL de conexão
+}
+
+// Modelo que representa a tabela de planos de saúde
+model Plano {
+  id                  String         @id @default(uuid()) @db.Char(36)
+  // @id= chave primaria, @default(uuid())= prisma cria automaticamente uuid, @db.char(36)= char de 36 caracteres
+  nome                String         @unique @db.VarChar(40) // @unique= valor único 
+  codigoRegistroAns   String         @unique @db.VarChar(20) @map("codigo_registro_ans") // @map("codigo_registro_ans)= nome pro sql
+  deletedAt           DateTime?      @map("deleted_at") // Datetime?= pode ser null
+  beneficiarios       Beneficiario[] // O Prisma entende que a tabela Beneficiario terá uma chave estrangeira de plano
+
+  @@map("Plano") // Mapeia o modelo para a tabela 'Plano'
+}
+
+// Modelo que representa a tabela de beneficiários
+model Beneficiario {
+  id            String   @id @default(uuid()) @db.Char(36) 
+  planoId       String   @map("fk_id_plano") @db.Char(36) 
+  nomeCompleto  String   @db.VarChar(100) @map("nome_completo") 
+  cpf           String   @unique @db.Char(11) 
+  dataNascimento DateTime @map("data_nascimento") 
+  dataCadastro  DateTime @default(now()) @map("data_cadastro")
+  status        String   @default("ATIVO") @db.VarChar(10)  // Status do beneficiário, padrão "ATIVO"
+  deletedAt     DateTime? @map("deleted_at") 
+  plano         Plano    @relation(fields: [planoId], references: [id]) // Criação de chave estrangeira
+
+  @@index([planoId]) // Cria índice para facilitar busca por planoId
+  @@index([status]) // Cria índice para facilitar busca por status
+  @@map("Beneficiario") // Mapeia o modelo para a tabela 'Beneficiario'
+}
