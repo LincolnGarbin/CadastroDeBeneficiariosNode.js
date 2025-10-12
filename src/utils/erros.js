@@ -3,7 +3,7 @@
 // Error 404 - Dado não encontrado
 export class NotFoundError extends Error {
   constructor(message = 'Not Found') { // Construtor recebe mensagem opcional
-    super(message); // Chama o construtor da classe pai (Error)
+    super(message); // Chama o construtor da classe pai (Error) passando a mensagem
     this.name = 'NotFoundError'; // Define o nome do erro
     this.status = 404; // Código HTTP 404
   }
