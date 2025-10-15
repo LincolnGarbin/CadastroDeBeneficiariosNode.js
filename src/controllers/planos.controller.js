@@ -2,7 +2,7 @@
 // Define as rotas e chama os serviços apropriados
 
 import express from 'express';
-import * as service from '../services/planos.service.js';
+import * as service from '../services/planos.services.js';
 
 // Roteador Express
 const router = express.Router();

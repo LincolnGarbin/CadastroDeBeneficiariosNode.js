@@ -9,7 +9,7 @@ import beneficiariosRouter from './src/controllers/beneficiarios.controller.js';
 import planosRouter from './src/controllers/planos.controller.js';
 
 // Importa middleware de erro centralizado
-import errorHandler from './src/utils/errors.js';
+import errorHandler from './src/middleware/errorHandler.js';
 
 const app = express();
 

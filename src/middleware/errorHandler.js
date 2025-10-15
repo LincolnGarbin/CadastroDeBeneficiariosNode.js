@@ -1,4 +1,4 @@
-// Centraliza respostas de erro e evita duplicação nos controllers.
+// Centraliza respostas de erro e evita duplicação nos controllers
 
 export default function errorHandler(err, req, res, next) {
   // Log para debug (em produção prefira logger com níveis)
