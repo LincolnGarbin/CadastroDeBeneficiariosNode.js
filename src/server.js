@@ -24,7 +24,7 @@ app.use('/api/planos', planosRouter);
 // Middleware final de tratamento de erros
 app.use(errorHandler);
 
-// Define a porta padrão (pode usar .env pra personalizar)
+// Define a porta padrão e inicia o servidor
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
