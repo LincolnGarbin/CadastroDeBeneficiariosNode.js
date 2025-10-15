@@ -54,12 +54,35 @@ export const listBeneficiarios = async (filters) => {
 
 // Atualiza beneficiário com validações
 export const updateBeneficiario = async (id, data) => {
+
   // Se atualizar cpf, validar formato
   if (data.cpf && !isCpfFormatValid(data.cpf)) {
     throw new ValidationError('CPF inválido', [{ field: 'cpf', rule: 'invalid_format' }]);
   }
 
+  // Se atualizar nomeCompleto, validar se é string não vazia
+  if (data.nomeCompleto !== undefined) {
+    if (typeof data.nomeCompleto !== 'string' || data.nomeCompleto.trim() === '') {
+      throw new ValidationError('Nome inválido', [{ field: 'nomeCompleto', rule: 'required' }]);
+    }
+  }
+
+  // Se atualizar dataNascimento, validar se é uma data válida
+  if (data.dataNascimento !== undefined) {
+    const date = new Date(data.dataNascimento);
+    if (isNaN(date.getTime())) {
+      throw new ValidationError('Data de nascimento inválida', [{ field: 'dataNascimento', rule: 'invalid_date' }]);
+    }
+  }
+
   // Se atualizar planoId, verificar se o plano existe
+  if (data.planoId !== undefined) {
+    const plano = await planoRepo.findPlanoById(data.planoId);
+    if (!plano) {
+      throw new ValidationError('Plano inexistente', [{ field: 'planoId', rule: 'exists' }]);
+    }
+  }
+  
   try {
     const updated = await repo.updateBeneficiario(id, data);
     return updated;
