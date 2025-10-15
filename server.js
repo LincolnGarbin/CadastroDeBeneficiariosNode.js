@@ -17,6 +17,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Rota raiz de teste
+app.get('/', (req, res) => {
+  res.send('🙋‍♂️ Hello...route /');
+});
+
 // Rotas principais da API
 app.use('/api/beneficiarios', beneficiariosRouter);
 app.use('/api/planos', planosRouter);
@@ -25,7 +30,7 @@ app.use('/api/planos', planosRouter);
 app.use(errorHandler);
 
 // Define a porta padrão e inicia o servidor
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
