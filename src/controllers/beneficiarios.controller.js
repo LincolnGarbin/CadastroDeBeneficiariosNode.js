@@ -68,6 +68,7 @@ router.put('/:id', async (req, res, next) => {
 // Remove beneficiário por ID (soft delete por padrão)
 router.delete('/:id', async (req, res, next) => {
   try {
+    // se precisar forçar hard delete: /api/beneficiarios/:id?hard=true
     const hard = req.query.hard === 'true';
     await service.deleteBeneficiario(req.params.id, { soft: !hard });
     return res.status(204).send(); // Retorna 204 No Content, indicando sucesso
