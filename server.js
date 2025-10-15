@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rota raiz de teste
-app.get('/', (req, res) => {
-  res.send('🙋‍♂️ Hello...route /');
+app.get('/', (req, res) => { // localhost:3001/
+  res.send('🙋‍♂️ Hello...route /'); // Resposta na rota raiz
 });
 
 // Rotas principais da API
