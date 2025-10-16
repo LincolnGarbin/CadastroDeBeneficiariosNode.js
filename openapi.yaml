@@ -1,0 +1,280 @@
+openapi: 3.0.3
+info: # informações da API
+  title: Cadastro de Beneficiários API
+  description: API REST para gerenciar planos e beneficiários
+  version: 1.0.0
+  name: Lincoln Garbin
+  contact: lincoln_garbin@hotmail.com
+
+servers: # Onde a API está hospedada
+  - url: http://localhost:3001
+    description: Servidor local de desenvolvimento
+    
+paths:
+  /api/planos: # Endpoints para planos
+    post:
+      summary: Criar plano
+      requestBody:
+        required: true # corpo obrigatório
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoCreate' # Referência ao schema
+            example:
+              nome: "Plano Ouro"
+              codigoRegistroAns: "ANS-123456"
+      responses: # Respostas possíveis
+        '201':
+          description: Plano criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano' # Referência ao schema   
+        '409':
+          description: Conflito de dados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'  
+
+    get:
+      summary: Listar planos
+      responses:
+        '200':
+          description: Lista de planos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanoList'
+
+  /api/planos/{id}:
+    get:
+      summary: Detalhar um plano
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Plano encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano'
+        '404':
+          description: Dado não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Atualizar plano
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanoUpdate'
+      responses:
+        '200': 
+          description: Plano atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plano'
+    delete:
+      summary: Excluir plano
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: 'Removido' }
+
+  /api/beneficiarios:
+    post:
+      summary: Criar beneficiário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiarioCreate'
+            example:
+              nomeCompleto: "Maria da Silva"
+              cpf: "11144477735"
+              dataNascimento: "1988-01-10T00:00:00.000Z"
+              planoId: "uuid-do-plano"  
+
+      responses:
+        '201':
+          description: Beneficiário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiario'
+        '409':
+          description: CPF duplicado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validação (ex: plano inexistente)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: Listar beneficiários
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [ATIVO, INATIVO]
+        - in: query
+          name: plano_id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de beneficiários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Beneficiario'
+
+  /api/beneficiarios/{id}:
+    get:
+      summary: Detalhe beneficiário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiario'
+        '404': { description: 'Não encontrado', content: { application/json: { schema: { $ref: '#/components/schemas/ErrorResponse' } } } }
+    put:
+      summary: Atualizar beneficiário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BeneficiarioUpdate'
+      responses:
+        '200': { description: 'Atualizado' }
+    delete:
+      summary: Remover beneficiário (soft/hard)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: 'Removido' }
+
+components:
+  schemas:
+
+    Plano:
+      type: object
+      properties:
+        id: { type: string }
+        nome: { type: string }
+        codigoRegistroAns: { type: string }
+        deletedAt: { type: string, format: date-time, default: null }
+
+    PlanoList:
+      type: object
+      properties:
+        id: { type: string }
+        nome: { type: string }
+        codigoRegistroAns: { type: string }
+        deletedAt: { type: string, format: date-time, default: null }
+      
+    PlanoCreate:
+      type: object
+      required: [nome, codigoRegistroAns]
+      properties:
+        nome: { type: string }
+        codigoRegistroAns: { type: string }
+
+    PlanoUpdate:
+      type: object
+      required: [nome, codigoRegistroAns]
+      properties:
+        nome: { type: string }
+        codigoRegistroAns: { type: string }    
+
+    Beneficiario:
+      type: object
+      properties:
+        id: { type: string }
+        nomeCompleto: { type: string }
+        cpf: { type: string }
+        dataNascimento: { type: string, format: date }
+        status: { type: string, enum: [ATIVO, INATIVO] }
+        planoId: { type: string }
+        dataCadastro: { type: string, format: date-time }
+
+    BeneficiarioCreate:
+      type: object
+      required: [nomeCompleto, cpf, dataNascimento, planoId]
+      properties:
+        nomeCompleto: { type: string }
+        cpf: { type: string }
+        dataNascimento: { type: string, format: date }
+        planoId: { type: string }
+
+    BeneficiarioUpdate:
+      type: object
+      properties:
+        nomeCompleto: { type: string }
+        cpf: { type: string }
+        dataNascimento: { type: string, format: date }
+        status: { type: string, enum: [ATIVO, INATIVO] }
+        planoId: { type: string }
+
+    ErrorResponse:
+      type: object
+      properties:
+        error: { type: string }
+        message: { type: string }
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              rule: { type: string }

@@ -35,7 +35,8 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-
+// GET /api/planos/:id
+// Busca um plano por ID
 router.get('/:id', async (req, res, next) => {
   try {
     const item = await service.getPlanoById(req.params.id);
@@ -45,8 +46,8 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// GET /api/planos/:id
-// Busca plano por ID
+// PUT /api/planos/:id
+// Atualiza um plano por ID
 router.put('/:id', async (req, res, next) => {
   try {
     const updated = await service.updatePlano(req.params.id, req.body);

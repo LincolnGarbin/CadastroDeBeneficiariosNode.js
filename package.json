@@ -20,7 +20,9 @@
   "dependencies": {
     "@prisma/client": "^6.17.0",
     "body-parser": "^2.2.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "prisma": "^6.17.0"

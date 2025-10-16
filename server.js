@@ -3,6 +3,7 @@
 
 import express from 'express';
 import bodyParser from 'body-parser';
+import setupSwagger from './swagger.js'; // Importa a configuração do Swagger
 
 // Importa os controladores (routers)
 import beneficiariosRouter from './src/controllers/beneficiarios.controller.js';
@@ -26,6 +27,9 @@ app.get('/', (req, res) => { // localhost:3001/
 app.use('/api/beneficiarios', beneficiariosRouter);
 app.use('/api/planos', planosRouter);
 
+// Monta Docs do Swagger
+setupSwagger(app);
+
 // Middleware final de tratamento de erros
 app.use(errorHandler);
 
@@ -33,4 +37,6 @@ app.use(errorHandler);
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  console.log(`Swagger UI: http://localhost:${PORT}/docs`);
 });
+
