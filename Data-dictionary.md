@@ -15,12 +15,12 @@
 | fk_id_plano           | CHAR(36)         | NOT NULL, FK -> planos(id)   | FK para o plano (obrigatório) |
 | nome_completo         | VARCHAR(100)     | NOT NULL                     | Nome completo do beneficiário |
 | cpf                   | CHAR(11)         | NOT NULL, UNIQUE             | CPF (apenas dígitos, 11 caracteres) |
-| data_nascimento       | DATE             | NOT NULL                     | Data de nascimento |
+| data_nascimento       | DATETIME         | NOT NULL                     | Data de nascimento |
 | status                | VARCHAR(10)      | NOT NULL, DEFAULT 'ATIVO'    | Status: 'ATIVO' ou 'INATIVO' |
 | data_cadastro         | TIMESTAMP       | NOT NULL, DEFAULT CURRENT_TIMESTAMP | Data/hora do cadastro |
 | deleted_at            | TIMESTAMP NULL    | NULL por padrão              | Timestamp da exclusão lógica (soft delete) |
 
 ### Observações
-- `uuid` implementação: armazenamos como `CHAR(36)` com valor gerado por `UUID()` no MySQL (formato textual `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`).
-- `cpf` armazenado sem pontuação (somente dígitos). Validar antes de inserir.
+- `uuid` implementação: armazenamos como `CHAR(36)` com valor gerado por `UUID()` no Prisma (formato textual `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`).
+- `cpf` armazenado sem pontuação (somente dígitos). 
 - `deleted_at` deixado como `NULL` para registros ativos; `NOT NULL` indica soft-deleted.
