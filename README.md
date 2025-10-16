@@ -49,8 +49,8 @@ CADASTRO DE BENEFICIARIOS/
 │
 ├── .env                         # Variáveis de ambiente (como URL do banco)
 ├── .gitignore                   # Arquivos ignorados pelo Git
-├── Data-dictionary.md            # Dicionário de dados do banco
-├── Decisions.md                 # Decisões de projeto e arquitetura
+├── data-dictionary.md           # Dicionário de dados do banco
+├── decisions.md                 # Decisões de projeto e arquitetura
 ├── openapi.yaml                 # Especificação OpenAPI / Swagger da API
 ├── package.json                 # Dependências e scripts do projeto
 ├── package-lock.json            # Lockfile de dependências
