@@ -1,54 +1,72 @@
 # DECISIONS.md
 
 ## Objetivo
-Registrar as principais decisões técnicas tomadas no desenvolvimento do projeto, bem como os trade-offs entre simplicidade (MVP) e sofisticação (bônus).
+Registrar as principais decisões técnicas tomadas no desenvolvimento do projeto.
 
 ---
 
 ## Banco de Dados
-- **Decisão:** Usar MySQL com Prisma ORM.
-- **Alternativas consideradas:** PostgreSQL.
-- **Motivo:** Familiaridade e simplicidade no setup local. PostgreSQL é mais robusto, mas não essencial para o escopo atual.
+- **Decisão:** Usar **MySQL** com **Prisma ORM**.
+- **Alternativas consideradas:** PostgreSQL, SQLite.
+- **Motivo:** MySQL é simples de configurar e compatível com o Prisma, ideal para ambiente local de desenvolvimento. Além da familiaridade com a tecnologia.
+- **Possível evolução:** Adicionar Docker Compose com container de banco de dados.
 
 ---
 
 ## Identificadores (ID)
-- **Decisão:** Utilizar UUID como chave primária.
+- **Decisão:** Utilizar **UUID (string de 36 caracteres)** como chave primária.
 - **Alternativas consideradas:** ID autoincrement (INT).
-- **Motivo:** UUID melhora a segurança e facilita integração futura com sistemas externos.
-- **Possível evolução:** Adicionar colunas como `created_at` e `updated_at` para maior rastreamento de mudanças.
+- **Motivo:** Garante unicidade global e facilita integração futura com outros sistemas.
+- **Possível evolução:** Implementar colunas de auditoria (`created_at`, `updated_at`).
 
 ---
 
 ## Exclusão de dados
 - **Decisão:** Implementar **soft delete** usando coluna `deleted_at`.
 - **Alternativas consideradas:** Hard delete.
-- **Motivo:** Permite recuperação de dados.
-- **Possível evolução:** Adicionar lógica para arquivamento automático de registros inativos após certo período.
+- **Motivo:** Permite manter histórico e recuperação de registros excluídos.
+- **Possível evolução:** Adicionar endpoint para restaurar beneficiários excluídos.
 
 ---
 
 ## Validação de CPF
-- **Decisão:** No MVP, apenas verificar se tem 11 dígitos numéricos e é único.
-- **Alternativas consideradas:** Validação completa com algoritmo dos dígitos verificadores.
-- **Motivo:** Entrega rápida.
-- **Possível evolução:** Implementar validação completa como melhoria.
+- **Decisão:** Verificar apenas formato com 11 dígitos e unicidade no banco. 
+- **Alternativas consideradas:** Implementar algoritmo de validação completa dos dígitos verificadores.
+- **Motivo:** Simplificação para foco na entrega funcional.
+- **Possível evolução:** Implementar validação completa posteriormente.
 
 ---
 
 ## Documentação (API)
-- **Decisão:** Swagger/OpenAPI ficará para etapa posterior.
-- **Motivo:** Priorizar endpoints funcionando primeiro.
-- **Possível evolução:** Gerar documentação automática via Swagger UI.
+- **Decisão:** Implementar **Swagger/OpenAPI** com arquivo `openapi.yaml` e integração via `swagger.js`.
+- **Motivo:** Facilitar testes e leitura da API sem depender de ferramentas externas (Postman/Insomnia).
 
 ---
 
 ## Testes
-- **Decisão:** Iniciar com testes básicos (Jest + Supertest) para validar cenários críticos.
-- **Evolução:** Ampliar para testes de integração mais completos.
+- **Decisão:** Testes manuais com **Echo API / Postman** durante o desenvolvimento.
+- **Alternativas consideradas:** Jest + Supertest.
+- **Motivo:** Entrega mais rápida e foco em funcionalidade principal.
+- **Possível evolução:** Adicionar Jest e Supertest para cobertura automatizada.
 
 ---
 
 ## Infraestrutura
-- **Decisão:** Rodar localmente sem Docker no início.
-- **Evolução:** Adicionar Docker e docker-compose para padronizar ambiente.
+- **Decisão:** Executar aplicação localmente, sem Docker.
+- **Motivo:** Menor tempo de setup e simplificação da execução do servidor.
+- **Possível evolução:** Adicionar `docker-compose.yml` com containers para aplicação e banco de dados.
+
+---
+
+## Organização do Projeto
+- **Decisão:** Estrutura modular em camadas:
+  ```
+  src/
+  ├── controllers/        → Lida com as rotas HTTP
+  ├── services/           → Contém a lógica de negócio
+  ├── repositories/       → Comunicação com o banco via Prisma
+  ├── db/                 → Configuração do Prisma Client
+  ├── middleware/         → Tratamento centralizado de erros
+  ├── utils/              → Funções auxiliares
+  ```
+- **Motivo:** Separar responsabilidades e facilitar manutenção.
