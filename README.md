@@ -70,8 +70,8 @@ CADASTRO DE BENEFICIARIOS/
 - **openapi.yaml** → arquivo de especificação **OpenAPI** (Swagger).  
 - **swagger.js** → configuração da documentação Swagger.  
 - **server.js** → ponto de entrada da aplicação.
-- **Data-dictionary.md** → dicionário de dados com definições das entidades.
-- **Decisions.md** → decisões arquiteturais e tecnológicas do projeto.
+- **data-dictionary.md** → dicionário de dados com definições das entidades.
+- **decisions.md** → decisões arquiteturais e tecnológicas do projeto.
 
 ---
 
@@ -127,7 +127,12 @@ example: DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/DATABASE"
 npx prisma migrate dev --name init
 ```
 
-### 5️⃣ Iniciar o servidor
+### 5️⃣ Rodar as seeds (dados iniciais)
+```bash
+npx prisma db seed
+```
+
+### 6️⃣ Iniciar o servidor
 ```bash
 node server.js
 ```
@@ -181,18 +186,6 @@ Lá você encontrará a documentação **interativa** gerada a partir do arquivo
 ```
 
 > ⚠️ O campo `dataNascimento` deve seguir o formato **ISO-8601** (com “T” e fuso horário).
-
----
-
-## 🧰 Comandos úteis
-
-| Comando | Descrição |
-|----------|------------|
-| `npm run dev` | Inicia o servidor em modo de desenvolvimento |
-| `npx prisma studio` | Abre interface visual para o banco |
-| `npx prisma migrate dev` | Executa migrações do banco |
-| `npx prisma generate` | Atualiza o client do Prisma |
-| `npm start` | Executa o projeto em modo de produção |
 
 ---
 
